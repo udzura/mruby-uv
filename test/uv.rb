@@ -97,15 +97,22 @@ end
 assert('UV.queue_work') do
   c = 0
   assert_raise(ArgumentError) { UV.queue_work(Proc.new {}) {} }
+  puts "OK: 100"
   assert_raise(ArgumentError) { UV.queue_work(WorkCFunc) }
+  puts "OK: 102"
   req = UV.queue_work(WorkCFunc) {
     assert_equal 4950, get_work_result
+    puts "OK: 105"
     c += 1
   }
   assert_kind_of UV::Req, req
+  puts "OK: 109"
   assert_equal :work, req.type
+  puts "OK: 111"
   UV.run
+  puts "OK: 113"
   assert_equal 1, c
+  puts "OK: 115"
 end
 
 assert('UV.resident_set_memory') do
